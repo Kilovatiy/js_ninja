@@ -1,10 +1,10 @@
 const form = document.querySelector(".signup-form");
 const feedback = document.querySelector(".feedback");
+const pattern = /^([a-zA-Z]|\d){6,}$/;
 
 form.addEventListener('submit', e => {
   e.preventDefault();
   const username = form.username.value;
-  const pattern = /^([a-zA-Z]|\d){6,}$/;
 
   if (pattern.test(username)) {
     feedback.style.display = 'none';
@@ -15,8 +15,10 @@ form.addEventListener('submit', e => {
 
 });
 
-
-//let result = pattern.test(username); // bool
-//let result1 = username.search(pattern); //int -1 - no match  
-
-//console.log(result);
+form.username.addEventListener('keyup', e => {
+  if (pattern.test(e.target.value)) {
+    form.username.setAttribute('class', 'success');
+  } else {
+    form.username.setAttribute('class', 'error');
+  }
+});
