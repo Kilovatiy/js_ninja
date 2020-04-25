@@ -1,19 +1,22 @@
-const button = document.querySelector('button');
-const popup = document.querySelector('.popup-wrapper');
-const close = document.querySelector('.popup-close');
+const form = document.querySelector(".signup-form");
+const feedback = document.querySelector(".feedback");
 
-button.addEventListener('click', (e) => {
-  popup.style.display = 'block';
-})
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const username = form.username.value;
+  const pattern = /^([a-zA-Z]|\d){6,}$/;
 
-close.addEventListener('click', (e) => {
-  popup.style.display = 'none';
-})
-
-popup.addEventListener('click', e => {
-  if (!Array.from(e.target.classList).includes('popup-wrapper')) {
-    return;
+  if (pattern.test(username)) {
+    feedback.style.display = 'none';
+  } else {
+    feedback.textContent =
+      "username must contains only letters and numbers and be longer then 6 characters";
   }
 
-  popup.style.display = 'none';
-})
+});
+
+
+//let result = pattern.test(username); // bool
+//let result1 = username.search(pattern); //int -1 - no match  
+
+//console.log(result);
