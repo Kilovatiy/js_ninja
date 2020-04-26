@@ -1,12 +1,25 @@
-const requset = new XMLHttpRequest();
+const getTodos = (callback) => {
+  const request = new XMLHttpRequest();
 
-requset.addEventListener('readystatechange', () => {
-  if (requset.readyState === 4 && requset.status == 200) {
-    console.log(requset.responseText);
-  } else if (requset.readyState === 4) {
-    console.log('could not fetch data. error occured.');
+  request.addEventListener('readystatechange', () => {
+    if (request.readyState === 4 && request.status == 200) {
+      callback(undefined, request.response);
+    } else if (request.readyState === 4) {
+      callback({ status: request.status, requestObj: request });
+      //console.log('could not fetch data. error occured.');
+    }
+
+  })
+
+  request.open('GET', 'https://jsonplaceholder.typicode.com/todossd/');
+  request.send();
+};
+
+getTodos((err, data) => {
+  if (!err) {
+    console.log(data)
   }
-})
-
-requset.open('GET', 'https://jsonplaceholder.typicode.com/todos/');
-let response = requset.send();
+  else{
+    console.log(err.status)
+  }
+});
