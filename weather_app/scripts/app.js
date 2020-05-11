@@ -14,7 +14,7 @@ const updateCity = async city => {
   };
 }
 
-const updateUi = ({ cityDetails, weather }) => {  
+const updateUi = ({ cityDetails, weather }) => {
   //update details template  
   details.innerHTML = `          
     <h5 class="my-3">${cityDetails.EnglishName}</h5>
@@ -29,7 +29,7 @@ const updateUi = ({ cityDetails, weather }) => {
     card.classList.remove('d-none');
   }
   //day/night img  
-  let timeSource = weather.IsDayTime ? 'img/day.svg' : 'img/night.svg';  
+  let timeSource = weather.IsDayTime ? 'img/day.svg' : 'img/night.svg';
   time.setAttribute('src', timeSource)
   //weather icon 
   const wIconSrc = `img/icons/${weather.WeatherIcon}.svg`;
@@ -42,6 +42,8 @@ cityInputForm.addEventListener('submit', async event => {
 
   //get city
   const city = cityInputForm.city.value.trim();
+  localStorage.setItem('city', city);
+
   cityInputForm.reset();
 
   //update ui
@@ -49,3 +51,7 @@ cityInputForm.addEventListener('submit', async event => {
     .then(data => updateUi(data))
     .catch(err => console.error(err))
 })
+
+if (localStorage.getItem('city')) {
+  updateCity(localStorage.getItem('city')).then(data => updateUi(data));
+}
