@@ -39,4 +39,3 @@ getTodos()
   .then(a => console.log(a))
   .catch(e => console.log(e));
 console.log(3);
-console.log(4);
