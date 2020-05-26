@@ -1,4 +1,4 @@
-///Experiments with prototype
+//Experiments with prototype
 // const Person = function (name, yearOfBirth, job) {
 //   this.name = name;
 //   this.yearOfBirth = yearOfBirth;
@@ -13,40 +13,39 @@
 
 // console.log(john);
 // console.log(john.calculateAge());
+
+// const User = function (login) {
+// }
+
 // let pers = { ...john, height: 183 };
 // let pers1 = Object.assign(new Person(), john);
 
-function fib_R(val) {
-  let p_2 = 0;
-  let p_1 = 1;
+function User(userName, email) {
+  this.userName = userName;
+  this.email = email;
+}
+User.prototype.login = function() {
+  console.log(`${this.userName} has logged in`);
+  return this;
+}
+User.prototype.logout = function() {
+  console.log(`${this.userName} has logged out`);
+}
 
-  if (val == 0) {
-    return p_2;
-  }
+function Admin(userName, email,title) {
+  User.call(this, userName, email);
+  this.title = title  
+}
+Admin.prototype = Object.create(User.prototype)
 
-  if (val == 1 || val == 2) {
-    return p_1;
-  }
+Admin.prototype.delete = function(userName){
+  console.log(`${userName} removed`);
+}
 
-  return fib(val - 1) + fib(val - 2);
-};
+const userOne = new User("test1", "test1@mail.com");
+const userTwo = new User("test1", "test1@mail.com");
+const admOne = new Admin("adminUser1", "test1@mail.com","Admin title");
 
-function fib(num) {
-  let next = 1;
-  let p2 = 1;
-  let p1 = 0
-
-  for (let i = 2; i <= num; i++) {
-    next = p1 + p2;
-    p1 = p2;
-    p2 = next;
-  }
-  return next;
-};
-
-
-
-console.log(fib_R(6));
-
-console.log(fib(6));
-
+console.log(userOne);
+console.log(userTwo);
+console.log(admOne);
