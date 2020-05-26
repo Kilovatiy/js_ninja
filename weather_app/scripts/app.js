@@ -4,15 +4,7 @@ const details = document.querySelector('.details');
 const time = document.querySelector('img.time');
 const wIcon = document.querySelector('.icon img')
 
-const updateCity = async city => {
-  const cityDetails = await getCity(city);
-  const weather = await getCurrentWeather(cityDetails.Key);
-
-  return {
-    cityDetails,
-    weather
-  };
-}
+const forecast = new Forecast();
 
 const updateUi = ({ cityDetails, weather }) => {
   //update details template  
@@ -47,11 +39,11 @@ cityInputForm.addEventListener('submit', async event => {
   cityInputForm.reset();
 
   //update ui
-  await updateCity(city)
+  await forecast.updateCity(city)
     .then(data => updateUi(data))
     .catch(err => console.error(err))
 })
 
 if (localStorage.getItem('city')) {
-  updateCity(localStorage.getItem('city')).then(data => updateUi(data));
+  forecast.updateCity(localStorage.getItem('city')).then(data => updateUi(data));
 }
