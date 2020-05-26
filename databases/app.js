@@ -12,17 +12,27 @@ const addRecipe = (recipe, id) => {
   list.innerHTML += html;
 }
 
-//Get docs
-db.collection('recipes').get().then((result) => {
-  result.docs.forEach(doc => {
-    addRecipe(doc.data(), doc.id);
+const deleteEntry = (id) => {
+  const recipes = document.querySelectorAll('li');
+  recipes.forEach(r => {
+    if (r.getAttribute('data-id') === id) {
+      r.remove();
+    }
   });
+}
 
-}).catch((err) => {
-  console.log(err);
+//Get docs
+db.collection('recipes').onSnapshot(snapshot => {
+  // console.log(snapshot.docChanges());
+  snapshot.docChanges().forEach(ch => {
+    const doc = ch.doc;
+    if (ch.type === 'added') {
+      addRecipe(doc.data(), doc.id)
+    } else if (ch.type === 'removed') {
+      deleteEntry(doc.id);
+    }
+  })
 });
-
-
 
 //add docs
 form.addEventListener('submit', e => {
@@ -36,16 +46,13 @@ form.addEventListener('submit', e => {
   }
 
   db.collection('recipes').add(recipe);
-
-  //addRecipe(recipe);
 });
 
 //deleting items
 list.addEventListener('click', e => {
   if (e.target.tagName === "BUTTON") {
-     let id = e.target.parentElement.parentElement.getAttribute("data-id");
-     //e.target.parentElement.parentElement.remove();
-     db.collection('recipes').doc(id).delete().then(()=>{console.log(`${id} deleted`)});     
+    let id = e.target.parentElement.parentElement.getAttribute("data-id");
+    db.collection('recipes').doc(id).delete().then(() => { console.log(`${id} deleted`) });
   }
 })
 
