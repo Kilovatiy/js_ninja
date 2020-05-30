@@ -1,0 +1,4 @@
+
+ npm install webpack webpack-cli --save-dev
+
+ .\node_modules\.bin\webpack
