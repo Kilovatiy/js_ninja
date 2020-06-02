@@ -12,3 +12,6 @@
 
 
  npm install babel-loader --save-dev
+
+
+npm install css-loader style-loader --save-dev
