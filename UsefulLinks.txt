@@ -1,0 +1,4 @@
+
+https://jsonplaceholder.typicode.com/guide.html
+
+https://github.com/iamshaunjp/modern-javascript/tree/lesson-165 = boilerplate for webpack
